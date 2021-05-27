@@ -4,59 +4,60 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Interfejs extends JPanel {
-    private final Plansza plansza;
+    public final Plansza plansza;
     private final Image[] img;
-    private final JPanel menu;
-    int iconSize = 20;
-    int defaultWys = 20;
-    int defaultSzer = 20;
 
-    public Interfejs() {
-        plansza = new Plansza();
-//        wys = plansza.getWys();
-//        szer = plansza.getSzer();
-        menu = new JPanel();
+    int iconSize = 15;
+    int Wys;
+    int Szer;
+
+    public Interfejs(PoziomTrudnosci poziomtrudnosci) {
+        plansza = new Plansza(poziomtrudnosci);
+        Wys = plansza.getWys();
+        Szer = plansza.getSzer();
 
         img = new Image[13];
-        for (int i = 0; i <= 12; i++) {
-            img[i] = new ImageIcon("/home/bronko/projects/saper/src/resources/" + i + ".png").getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH);
+        for (int i = 0; i < 12; i++) {
+            img[i] = new ImageIcon("./src/resources/" + i + ".png").getImage(); //.getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH)
         }
-
-//        System.out.println(iconSize*szer + " " + iconSize*wys);
-        setPreferredSize(new Dimension(iconSize * defaultSzer, iconSize * defaultWys));
+        setPreferredSize(new Dimension(iconSize * Szer, iconSize * Wys));
         addMouseListener(new MinesAdapter());
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        System.out.println(plansza.stan_gry().toString());
-        if (plansza.stan_gry().equals(StanGry.TRWA)){
-            setPreferredSize(new Dimension(iconSize*plansza.getWys(), iconSize*plansza.getWys()));
-        }
-        else {
-            setPreferredSize(new Dimension(iconSize*defaultSzer, iconSize*defaultWys));
+        super.paintComponent(g);
+
+        if (plansza.stan_gry().equals(StanGry.TRWA)) {
+            setPreferredSize(new Dimension(iconSize * plansza.getWys(), iconSize * plansza.getWys()));
+        } else {
+            setPreferredSize(new Dimension(iconSize * Szer, iconSize * Wys));
         }
         switch (plansza.stan_gry()) {
-            case MENU -> {
-                System.out.println("menu");
-                for (int i = 0; i < 12; i++) {
-                    System.out.println(i);
-                    g.drawImage(img[i], i * iconSize, 0, this);
-                }
-            }
             case TRWA -> {
                 for (int i = 0; i < plansza.getWys(); i++) {
                     for (int j = 0; j < plansza.getSzer(); j++) {
-                        System.out.println(plansza.info_pola(i, j));
-                        g.drawImage(img[plansza.info_pola(i, j)], j * iconSize, i * iconSize, this);
+                        int nr = plansza.info_pola(i, j);
+                        Image pole = img[nr];
+                        g.drawImage(pole, j * iconSize, i * iconSize, this);
                     }
                 }
             }
             case WYGRANA -> {
-                System.out.println("wygrana");
+                g.setColor(Color.green);
+                g.fillRect(0, 0, Szer * iconSize, Wys * iconSize);
+                g.setColor(Color.black);
+                Font font = new Font("Arial", Font.PLAIN, 30);
+                g.setFont(font);
+                g.drawString("Wygrana XDD", 100, 100);
             }
             case PRZEGRANA -> {
-                System.out.println("przegrana");
+                g.setColor(Color.red);
+                g.fillRect(0, 0, Szer * iconSize, Wys * iconSize);
+                g.setColor(Color.black);
+                Font font = new Font("Arial", Font.PLAIN, 30);
+                g.setFont(font);
+                g.drawString("Przegrana XDD", 100, 100);
             }
         }
     }
@@ -69,26 +70,22 @@ public class Interfejs extends JPanel {
             int x = e.getX();
             int y = e.getY();
             switch (plansza.stan_gry()) {
-                case MENU -> {
-//                    System.out.println("menu");
-                    plansza.ustaw_poziom_trudnosc(PoziomTrudnosci.EASY);
-                }
                 case TRWA -> {
                     int cCol = y / iconSize;
                     int cRow = x / iconSize;
-                    plansza.odkryj_pole(cCol, cRow);
+                    if (e.getButton() == MouseEvent.BUTTON1) {
+                        plansza.odkryj_pole(cCol, cRow);
+                    }
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        plansza.przelacz_flage(cCol, cRow);
+                    }
+
                 }
                 case WYGRANA, PRZEGRANA -> {
-                    plansza.reset_stan_gry();
                 }
             }
-
-
-//            if (e.getButton() == MouseEvent.BUTTON3){
-
             repaint();
-//            }
-//            boolean doRepaint = false;
+            System.out.println(plansza);
         }
     }
 }

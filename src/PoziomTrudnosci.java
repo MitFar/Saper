@@ -1,5 +1,5 @@
 public enum PoziomTrudnosci {
-    EASY (9, 9, 5),
+    EASY (9, 9, 10),
     MEDIUM (15, 15, 20),
     HARD (20, 20, 30);
 

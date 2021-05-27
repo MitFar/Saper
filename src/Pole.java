@@ -33,9 +33,10 @@ public class Pole {
         if (ma_flage) {
             return "[F]";
         }
-        else if(jest_odkryte){
+
+//        else if(jest_odkryte){
             return "[_]";
-        }
-        return "[ ]";
+//        }
+//        return "[ ]";
     }
 }

@@ -22,10 +22,10 @@ public class Mina extends Pole{
         if (ma_flage) {
             return "[F]";
         }
-        else if(jest_odkryte){
+//        else if(jest_odkryte){
             return "[M]";
-        }
-        return "[ ]";
+//        }
+//        return "[ ]";
     }
 
 }
