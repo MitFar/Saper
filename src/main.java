@@ -7,7 +7,7 @@ class saper {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container kontener = frame.getContentPane();
 
-        Interfejs interfejs = new Interfejs(PoziomTrudnosci.MEDIUM);
+        Interfejs interfejs = new Interfejs(PoziomTrudnosci.HARD);
         kontener.add(interfejs);
 
         frame.pack();

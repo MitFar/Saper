@@ -20,19 +20,19 @@ public class Interfejs extends JPanel {
         for (int i = 0; i < 12; i++) {
             img[i] = new ImageIcon("./src/resources/" + i + ".png").getImage(); //.getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH)
         }
-        setPreferredSize(new Dimension(iconSize * Szer, iconSize * Wys));
+        setPreferredSize(new Dimension(iconSize * Szer, iconSize * Wys)); // wielkosc okna = wielkosc ikonek * ilosc ikonek
         addMouseListener(new MinesAdapter());
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+        super.paintComponent(g); // wywoluje metode paintcomponent rodzica
 
-        if (plansza.stan_gry().equals(StanGry.TRWA)) {
-            setPreferredSize(new Dimension(iconSize * plansza.getWys(), iconSize * plansza.getWys()));
-        } else {
-            setPreferredSize(new Dimension(iconSize * Szer, iconSize * Wys));
-        }
+//        if (plansza.stan_gry().equals(StanGry.TRWA)) {
+//            setPreferredSize(new Dimension(iconSize * plansza.getWys(), iconSize * plansza.getWys()));
+//        } else {
+//            setPreferredSize(new Dimension(iconSize * Szer, iconSize * Wys));
+//        }
         switch (plansza.stan_gry()) {
             case TRWA -> {
                 for (int i = 0; i < plansza.getWys(); i++) {
@@ -45,19 +45,19 @@ public class Interfejs extends JPanel {
             }
             case WYGRANA -> {
                 g.setColor(Color.green);
-                g.fillRect(0, 0, Szer * iconSize, Wys * iconSize);
+                g.fillRect(0, 0, Szer * iconSize, Wys * iconSize);//wypelnia cale okno kolorem
                 g.setColor(Color.black);
-                Font font = new Font("Arial", Font.PLAIN, 30);
+                Font font = new Font("Arial", Font.PLAIN, 20);
                 g.setFont(font);
-                g.drawString("Wygrana XDD", 100, 100);
+                g.drawString("Wygrana", 40, 50);
             }
             case PRZEGRANA -> {
                 g.setColor(Color.red);
                 g.fillRect(0, 0, Szer * iconSize, Wys * iconSize);
                 g.setColor(Color.black);
-                Font font = new Font("Arial", Font.PLAIN, 30);
+                Font font = new Font("Arial", Font.PLAIN, 20);
                 g.setFont(font);
-                g.drawString("Przegrana XDD", 100, 100);
+                g.drawString("Przegrana", 40, 50);
             }
         }
     }
@@ -65,7 +65,7 @@ public class Interfejs extends JPanel {
 
     private class MinesAdapter extends MouseAdapter {
 
-        @Override
+        @Override // nadpisuje metode MousePressed która dziedzicze po MouseAdapter
         public void mousePressed(MouseEvent e) {
             int x = e.getX();
             int y = e.getY();
